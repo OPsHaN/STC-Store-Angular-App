@@ -1,0 +1,62 @@
+      <!-- category -->
+ <div class="category">
+      <div class="check" (change)="getFilter($event)">
+        <input type="radio"  checked id="all" value="all" name="cat"/>
+        <label  for="all">All</label>
+      </div>
+      <div class="form-check" *ngFor="let cat of categoryList" (change)="getFilter($event)">
+        <input type="radio"  id="cat" value="{{cat}}" name="cat"/>
+        <label  for="cat">{{cat}}</label>
+      </div>
+</div>
+      <!-- category -->
+<div class="scroll" *ngIf="!loading">
+    <div class="container one">
+      <h1 style="padding-left: 25px">Products</h1>
+      <div class="grid-cards" >
+        <div class="card"*ngFor="let prd of productList; trackBy: trackByFn" >
+          <img [src]="prd.thumbnail" routerLink="/details/{{prd.id}}" alt="img-1" title="{{ prd.title }}">
+          <div class="card-body">
+            <h2 class="title-card">
+              {{ prd.title }}
+              </h2>
+              <p [ngClass]="{'limitTextHeight': isReadMore}">
+                {{prd.description}}
+               </p>
+               <h3>Category: {{prd.category}}</h3>
+               <h3>{{prd.price}} : USD</h3>
+             </div>
+             <div class="card-footer">
+             <a routerLink="/details/{{prd.id}}">Add to cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="pagination">
+      <tr>
+        <td>
+          <button class="btn" (click)="getProducts(currentpageIndex * limitItems , 0)">
+            {{ "<<" }}
+          </button>
+        </td>
+        <td *ngFor="let pagenumber of pagesnumbers">
+          <button class="btn" (click)="getProducts(currentpageIndex * limitItems , pagenumber - 1 )
+            " [style.background-color]="pagenumber - 1 == currentpageIndex ? 'Gainsboro' : 'GoldenRod'">
+            {{pagenumber}}
+          </button>
+        </td>
+        <td>
+          <button class="btn" (click)="getProducts(currentpageIndex * pagesnumbers[pagesnumbers.length - 1], pagesnumbers[pagesnumbers.length - 1] - 1)">
+            {{ ">>" }}
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    
+
+</div>
+<div class="spinner" *ngIf="loading" >
+  <app-spinner></app-spinner>
+</div>
+

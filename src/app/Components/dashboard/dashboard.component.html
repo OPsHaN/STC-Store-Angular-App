@@ -1,0 +1,112 @@
+<h1>Admin Dashboard</h1>
+<!-- button -->
+<div class="pop">
+  <!-- add product -->
+  <button class="button-pro" role="button"><label for="1" class="open">Add Product</label>
+  </button>
+  <input type="checkbox" id="1" />
+  <div class="modal">
+    <div class="modal__inner">
+      <label for="1">X</label>
+        <!-- form -->
+        <form [formGroup]="form">
+          <fieldset>
+            <legend>Add Porduct</legend>
+            <input type="text"  formControlName="title" name="title" placeholder="Title" ><br><br>
+            <input type="text"  formControlName="price" name="price" placeholder="Price" ><br><br>
+            <input type="file" name="image" placeholder="Image" (change)="getimgPath($event)"><br><br>
+            <img src="{{base64}}" alt=""/>
+            <textarea name="description" formControlName="description" placeholder="Description The Product" rows="2" cols="76"></textarea>
+            <select name="category" id="category" (change)="getSelectedCat($event)" >
+              <option selected value="Please choose the category">Please choose the category</option>
+              <option value="{{cat}}" *ngFor="let cat of categoryList">{{cat}}</option>
+            </select>
+            <input [disabled]="!form.valid" type="submit" value="Add Product" (click)="addProduct()">
+          </fieldset>
+      </form>
+         <!-- form -->
+    </div>
+  </div>
+</div>
+<!-- button -->
+
+  <div class="scroll" *ngIf="!loading">
+    <div class="cardsadmin" *ngIf="!loading">
+      <div class="cardadmin" *ngFor="let item of productList">
+        <div class="cardadmin-preview">
+          <img class="thum" [src]="item.thumbnail" routerLink="/details/{{item.id}}" title="{{item.title}}">
+        </div>
+        <div class="cardadmin-info">
+          <!-- <div class="progress-container">
+          <span class="progress-text">
+              {{item.rating}}
+            </span>
+          </div> -->
+          <h3>{{item.title}}</h3>
+                <h3 [ngClass]="{'limitTextHeight': isReadMore}">
+                    {{item.description}}
+                </h3>
+                <h3>{{item.price}} : USD</h3>
+                <h4>Brand: {{item.brand}}</h4>
+                <h4>Category: {{item.category}}</h4>
+                <h4>In Stock: {{item.stock}}</h4>
+                 <!-- edit product -->
+                 <div class="pop">
+                  <!-- add product -->
+                  <button class="btnedit" role="button"><label for="2" class="open" (click)="update(item)">Edit Product</label>
+                  </button>
+                  <input type="checkbox" id="2" />
+                  <div class="modal">
+                    <div class="modal__inner">
+                      <label for="2">X</label>
+                        <!-- form -->
+                        <form [formGroup]="form">
+                          <fieldset>
+                            <legend>Edit Porduct</legend>
+                            <input type="text"  formControlName="title" name="title" placeholder="Title" ><br><br>
+                            <input type="text"  formControlName="price" name="price" placeholder="Price" ><br><br>
+                            <input type="file" name="image" placeholder="Image" (change)="getimgPath($event)"><br><br>
+                            <img [src]="base64" alt=""/>
+                            <textarea name="description" formControlName="description" placeholder="Description The Product" rows="3" cols="76"></textarea>
+                            <select name="category" id="category" (change)="getSelectedCat($event)" >
+                              <option selected value="form.value.category" >{{form.value.category}}</option>
+                              <option value="{{cat}}"  [selected]="cat==select" *ngFor="let cat of categoryList">{{cat}}</option>
+                            </select>
+                            <input  type="submit" value="Edit" (click)="editproduct()">
+                          </fieldset>
+                      </form>
+                         <!-- form -->
+                    </div>
+                  </div>
+                </div>
+                 <!-- delete product -->
+               <button class="btndelete" (click)="deleteproduct()">Delete Product</button>
+        </div>
+      </div>
+    </div>
+      <table class="pagination">
+        <tr>
+          <td>
+            <button class="btn" (click)="getProducts(currentpageIndex * limitItems , 0)">
+              {{ "<<" }}
+            </button>
+          </td>
+          <td *ngFor="let pagenumber of pagesnumbers">
+            <button class="btn" (click)="getProducts(currentpageIndex * limitItems , pagenumber - 1 )
+              " [style.background-color]="pagenumber - 1 == currentpageIndex ? 'Gainsboro' : 'GoldenRod'">
+              {{pagenumber}}
+            </button>
+          </td>
+          <td>
+            <button class="btn" (click)="getProducts(currentpageIndex * pagesnumbers[pagesnumbers.length - 1], pagesnumbers[pagesnumbers.length - 1] - 1)">
+              {{ ">>" }}
+            </button>
+          </td>
+        </tr>
+      </table>
+  </div>
+  <div class="spinner" *ngIf="loading" >
+    <app-spinner></app-spinner>
+  </div>
+  
+
