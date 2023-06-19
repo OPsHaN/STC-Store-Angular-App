@@ -2,7 +2,7 @@
 <!-- button -->
 <div class="pop">
   <!-- add product -->
-  <button class="button-pro" role="button"><label for="1" class="open">Add Product</label>
+  <button class="button-pro" role="button"><label for="1" class="open" (click)="form.reset()">Add Product</label>
   </button>
   <input type="checkbox" id="1" />
   <div class="modal">
@@ -70,7 +70,7 @@
                             <textarea name="description" formControlName="description" placeholder="Description The Product" rows="3" cols="76"></textarea>
                             <select name="category" id="category" (change)="getSelectedCat($event)" >
                               <option selected value="form.value.category" >{{form.value.category}}</option>
-                              <option value="{{cat}}"  [selected]="cat==select" *ngFor="let cat of categoryList">{{cat}}</option>
+                              <option value="{{cat}}" [selected]="cat==select" *ngFor="let cat of categoryList">{{cat}}</option>
                             </select>
                             <input  type="submit" value="Edit" (click)="editproduct()">
                           </fieldset>
@@ -80,7 +80,7 @@
                   </div>
                 </div>
                  <!-- delete product -->
-               <button class="btndelete" (click)="deleteproduct()">Delete Product</button>
+               <button class="btndelete" (click)="deleteproduct(item.id)">Delete Product</button>
         </div>
       </div>
     </div>
