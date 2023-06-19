@@ -21,8 +21,6 @@ export class DashboardComponent implements OnInit {
   base64: any = '';
   form!: FormGroup;
   select = '';
-  productData:undefined | any;
-
 
   constructor(
     private product: ProductsService,
@@ -107,6 +105,12 @@ export class DashboardComponent implements OnInit {
     this.product.createPorduct(model).subscribe((res) => {
       alert('Add Product Success');
     });
+
+  }
+
+  //clear the data when add
+  reset() {
+    this.form.reset();
   }
 
   //show the product to edit
@@ -125,16 +129,14 @@ export class DashboardComponent implements OnInit {
     this.product.createPorduct(model).subscribe((res) => {
       alert('The product has been modified');
     });
-
 }
 
-//deleteupdateproduct
-deleteproduct() {
-  const model = this.form.value;
-  this.product.deleteProduct(model).subscribe((res) => {
-    alert('The product has been removed');
-  });
 
+//deleteupdateproduct
+deleteproduct(id:string) {
+  this.product.deleteProduct(id).subscribe((res) => {;
+  alert('The product has been removed');
+});
 }
 
 }
