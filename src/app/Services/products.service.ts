@@ -37,14 +37,13 @@ export class ProductsService {
   }
 
   //edit product
-  editProduct(model: any) {
-    return this.http.put<any>('https://dummyjson.com/products/1', model);
+  editProduct(modelid: string) {
+    return this.http.put<any>('https://dummyjson.com/products/'+modelid, modelid);
 
   }
 
   //delete product
-  deleteProduct(model: any) {
-    return this.http.delete<any>('https://dummyjson.com/products/1', model);
-
+  deleteProduct(moid: string) {
+    return this.http.delete<any>('https://dummyjson.com/products/'+ moid)
   }
 }
